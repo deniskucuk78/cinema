@@ -13,7 +13,7 @@ import javax.persistence.EntityManagerFactory;
  *  ID : type de l'identifiant de l'entité
  */
 public abstract class AbstractDAO<E,ID> {
-	private EntityManagerFactory emf;
+	protected EntityManagerFactory emf;
 	private Class<E> entityClass;
 	private static final Logger LOG = Logger.getLogger(AbstractDAO.class.getName());
 	

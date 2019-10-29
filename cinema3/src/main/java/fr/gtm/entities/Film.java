@@ -41,30 +41,29 @@ public class Film implements Serializable {
 	//@Transient
 	//private Map<String, Acteur> roles = new HashMap<String, Acteur>();
 	
-	//manytomany unidirectionnel
+	
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="film_acteur",
 	joinColumns = @JoinColumn(name="fk_film"),
 	inverseJoinColumns= @JoinColumn(name="fk_acteur"))
 	private List<Acteur> acteurs = new ArrayList<Acteur>();
 	
+	public Film() {
+
+	}
 	
 	
 	
-	
-	/*public Film(String titre, String realisateur, LocalDate dateSortie, int duree, Map<String, Acteur> roles) {
+	public Film(String titre, String realisateur, LocalDate dateSortie, int duree, List<Acteur> acteurs) {
 		super();
 		this.titre = titre;
 		this.realisateur = realisateur;
 		this.dateSortie = dateSortie;
 		this.duree = duree;
-		//this.roles = roles;
-	}*/
-	
-	
-	public Film() {
-
+		this.acteurs = acteurs;
 	}
+	
+
 	
 
 	public String getTitre() {
@@ -99,13 +98,13 @@ public class Film implements Serializable {
 		this.duree = duree;
 	}
 
-//	public Map<String, Acteur> getRoles() {
-//		return roles;
-//	}
+	public List<Acteur> getActeurs() {
+		return acteurs;
+	}
 
-//	public void setRoles(Map<String, Acteur> roles) {
-//		this.roles = roles;
-//	}
+	public void setActeurs(List<Acteur> acteurs) {
+		this.acteurs = acteurs;
+	}
 
 	public long getId() {
 		return id;
@@ -115,11 +114,11 @@ public class Film implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((acteurs == null) ? 0 : acteurs.hashCode());
 		result = prime * result + ((dateSortie == null) ? 0 : dateSortie.hashCode());
 		result = prime * result + duree;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((realisateur == null) ? 0 : realisateur.hashCode());
-//		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
 		result = prime * result + ((titre == null) ? 0 : titre.hashCode());
 		return result;
 	}
@@ -133,6 +132,11 @@ public class Film implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
+		if (acteurs == null) {
+			if (other.acteurs != null)
+				return false;
+		} else if (!acteurs.equals(other.acteurs))
+			return false;
 		if (dateSortie == null) {
 			if (other.dateSortie != null)
 				return false;
@@ -147,11 +151,6 @@ public class Film implements Serializable {
 				return false;
 		} else if (!realisateur.equals(other.realisateur))
 			return false;
-//		if (roles == null) {
-//			if (other.roles != null)
-//				return false;
-//		} else if (!roles.equals(other.roles))
-//			return false;
 		if (titre == null) {
 			if (other.titre != null)
 				return false;
@@ -163,8 +162,10 @@ public class Film implements Serializable {
 	@Override
 	public String toString() {
 		return "Film [id=" + id + ", titre=" + titre + ", realisateur=" + realisateur + ", dateSortie=" + dateSortie
-				+ ", duree=" + duree + "]";
+				+ ", duree=" + duree + ", acteurs=" + acteurs + "]";
 	}
+
+
 	
 	
 
